@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:yescabank/services/loginCustomer_service.dart';
 import '../models/login_model.dart';
-import '../services/customer_service.dart';
 
 class LoginPage extends StatefulWidget {
   final VoidCallback onLoginSuccess;
@@ -15,32 +15,60 @@ class LoginPage extends StatefulWidget {
 
 class _LoginPageState extends State<LoginPage> {
   final formKey = GlobalKey<FormState>();
-  final CustomerService _customerService = CustomerService(); // Instancia del servicio
+  final LogincustomerService _loginCustomerService = LogincustomerService(); // Instancia del servicio correcta
   TextEditingController _personCodeController = TextEditingController();
   TextEditingController _pinController = TextEditingController();
+  bool _isLoading = false; // Indicador de carga
 
   // Método para hacer login del cliente
   Future<void> _loginCustomer() async {
     if (formKey.currentState!.validate()) {
+      setState(() {
+        _isLoading = true; // Mostrar indicador de carga
+      });
+
       LoginCustomer loginCustomer = LoginCustomer(
         personCode: _personCodeController.text,
         key: _pinController.text,
       );
 
       try {
-        String? token = await _customerService.loginCustomer(loginCustomer);
+        String? token = await _loginCustomerService.loginCustomer(loginCustomer);
+
         if (token != null) {
+          // Guardamos el token localmente
+          await _saveToken(token);
+
           ScaffoldMessenger.of(context).showSnackBar(
             const SnackBar(content: Text("Login Successful")),
           );
+
+          // Redirigimos al Home después del login exitoso
           widget.onLoginSuccess(); // Usuario autenticado exitosamente
+        } else {
+          // Si no recibimos el token por alguna razón, mostramos un error
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(content: Text("Login failed, token not received")),
+          );
         }
+
       } catch (e) {
+        // Manejar el error solo si realmente ocurrió
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(content: Text("Failed to login: $e")),
         );
+      } finally {
+        setState(() {
+          _isLoading = false; // Ocultar indicador de carga
+        });
       }
     }
+  }
+
+  // Método para guardar el token usando SharedPreferences
+  Future<void> _saveToken(String token) async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setString('authToken', token);
   }
 
   @override
@@ -92,12 +120,14 @@ class _LoginPageState extends State<LoginPage> {
                 height: 60,
                 width: MediaQuery.of(context).size.width * .9,
                 child: ElevatedButton(
-                  onPressed: _loginCustomer, // Llamada al método para hacer login
+                  onPressed: _isLoading ? null : _loginCustomer, // Deshabilitar el botón si está cargando
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Theme.of(context).primaryColor,
                     foregroundColor: Colors.white,
                   ),
-                  child: const Text("Login", style: TextStyle(fontSize: 16)),
+                  child: _isLoading
+                      ? const CircularProgressIndicator(color: Colors.white) // Mostrar indicador de carga
+                      : const Text("Login", style: TextStyle(fontSize: 16)),
                 ),
               ),
               const SizedBox(height: 10),

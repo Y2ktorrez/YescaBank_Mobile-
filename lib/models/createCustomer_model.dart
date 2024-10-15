@@ -1,15 +1,15 @@
 class Customer {
-  String ci;
+  int ci;
   String name;
   String lastName;
   String email;
-  String dateOfBirth;
+  DateTime dateOfBirth;
   String address;
-  String phone;
+  int phone;
   String ocupation;
   String reference;
-  int typeCurrencyId;
-  int typeAccountId;
+  String typeCurencyName; // Cambiado a String
+  String typeAccountName; // Cambiado a String
 
   Customer({
     required this.ci,
@@ -21,8 +21,8 @@ class Customer {
     required this.phone,
     required this.ocupation,
     required this.reference,
-    required this.typeCurrencyId,
-    required this.typeAccountId,
+    required this.typeCurencyName,
+    required this.typeAccountName,
   });
 
   Map<String, dynamic> toJson() {
@@ -31,13 +31,14 @@ class Customer {
       'name': name,
       'lastName': lastName,
       'email': email,
-      'dateOfBirth': dateOfBirth,
+      'dateOfBirth': dateOfBirth.toIso8601String(),
       'address': address,
       'phone': phone,
       'ocupation': ocupation,
       'reference': reference,
-      'typeCurrency_id': typeCurrencyId,
-      'typeAccount_id': typeAccountId,
+      'typeCurencyName': typeCurencyName, // Cambiado a String
+      'typeAccountName': typeAccountName, // Cambiado a String
     };
   }
 }
+

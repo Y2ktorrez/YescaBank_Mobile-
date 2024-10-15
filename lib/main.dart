@@ -4,9 +4,6 @@ import 'package:yescabank/screens/home.dart';
 import 'package:yescabank/screens/my_cart.dart';
 import 'package:yescabank/screens/profile.dart';
 import 'package:yescabank/screens/scan.dart';
-import 'package:yescabank/widgets/action_button.dart';
-import 'package:yescabank/widgets/credit_cart.dart';
-import 'package:yescabank/widgets/transaction_list.dart';
 
 import 'screens/login.dart';
 import 'screens/signup.dart';
@@ -26,7 +23,8 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: const Color.fromARGB(255, 16, 80, 98)),
         useMaterial3: true,
       ),
-      home: const AuthScreen(),
+      debugShowCheckedModeBanner: false,
+      home: const AuthScreen(), // Pantalla de autenticación inicial
     );
   }
 }
@@ -39,20 +37,18 @@ class AuthScreen extends StatefulWidget {
 }
 
 class _AuthScreenState extends State<AuthScreen> {
-  bool isAuthenticated = false;
   bool isSignup = false;
 
   @override
   Widget build(BuildContext context) {
-    if (isAuthenticated) {
-      return const MainPage();
-    }
     return isSignup
         ? SignupPage(
       onSignupSuccess: () {
-        setState(() {
-          isAuthenticated = true;
-        });
+        // Redirige a MainPage cuando el usuario se registra exitosamente
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (context) => const MainPage()),
+        );
       },
       onSwitchToLogin: () {
         setState(() {
@@ -62,9 +58,11 @@ class _AuthScreenState extends State<AuthScreen> {
     )
         : LoginPage(
       onLoginSuccess: () {
-        setState(() {
-          isAuthenticated = true;
-        });
+        // Redirige a MainPage cuando el usuario inicia sesión exitosamente
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (context) => const MainPage()),
+        );
       },
       onSwitchToSignup: () {
         setState(() {
@@ -84,12 +82,13 @@ class MainPage extends StatefulWidget {
 
 class _MainPageState extends State<MainPage> {
   int currentIndex = 0;
+
   final List<Widget> pages = [
     const Home(),
     const MyCardPage(),
     const ScanPage(),
     const ActivityPage(),
-    const ProfilePage(),
+    const ProfilePage()
   ];
 
   @override
@@ -106,9 +105,7 @@ class _MainPageState extends State<MainPage> {
             FloatingActionButton(
               onPressed: () => onTabTapped(2),
               backgroundColor: const Color.fromARGB(255, 16, 80, 98),
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(30),
-              ),
+              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
               child: const Icon(
                 Icons.qr_code_scanner,
                 color: Colors.white,
@@ -127,14 +124,14 @@ class _MainPageState extends State<MainPage> {
       onPressed: () => onTabTapped(index),
       icon: Column(
         children: [
-          Icon(icon, color: currentIndex == index ? Colors.black : Colors.grey),
+          Icon(
+            icon,
+            color: currentIndex == index ? Colors.black : Colors.grey,
+          ),
           Text(
             label,
-            style: TextStyle(
-              fontSize: 10,
-              color: currentIndex == index ? Theme.of(context).primaryColor : Colors.grey,
-            ),
-          ),
+            style: TextStyle(fontSize: 10, color: currentIndex == index ? Theme.of(context).primaryColor : Colors.grey),
+          )
         ],
       ),
     );
