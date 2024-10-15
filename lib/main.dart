@@ -8,6 +8,9 @@ import 'package:yescabank/widgets/action_button.dart';
 import 'package:yescabank/widgets/credit_cart.dart';
 import 'package:yescabank/widgets/transaction_list.dart';
 
+import 'screens/login.dart';
+import 'screens/signup.dart';
+
 void main() {
   runApp(const MyApp());
 }
@@ -20,10 +23,54 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: "Yesca Bank",
       theme: ThemeData(
-          colorScheme: ColorScheme.fromSeed(
-              seedColor: const Color.fromARGB(255, 16, 80, 98)),
-          useMaterial3: true),
-      home: const MainPage(),
+        colorScheme: ColorScheme.fromSeed(seedColor: const Color.fromARGB(255, 16, 80, 98)),
+        useMaterial3: true,
+      ),
+      home: const AuthScreen(),
+    );
+  }
+}
+
+class AuthScreen extends StatefulWidget {
+  const AuthScreen({super.key});
+
+  @override
+  State<AuthScreen> createState() => _AuthScreenState();
+}
+
+class _AuthScreenState extends State<AuthScreen> {
+  bool isAuthenticated = false;
+  bool isSignup = false;
+
+  @override
+  Widget build(BuildContext context) {
+    if (isAuthenticated) {
+      return const MainPage();
+    }
+    return isSignup
+        ? SignupPage(
+      onSignupSuccess: () {
+        setState(() {
+          isAuthenticated = true;
+        });
+      },
+      onSwitchToLogin: () {
+        setState(() {
+          isSignup = false;
+        });
+      },
+    )
+        : LoginPage(
+      onLoginSuccess: () {
+        setState(() {
+          isAuthenticated = true;
+        });
+      },
+      onSwitchToSignup: () {
+        setState(() {
+          isSignup = true;
+        });
+      },
     );
   }
 }
@@ -60,14 +107,14 @@ class _MainPageState extends State<MainPage> {
               onPressed: () => onTabTapped(2),
               backgroundColor: const Color.fromARGB(255, 16, 80, 98),
               shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(30)
+                borderRadius: BorderRadius.circular(30),
               ),
               child: const Icon(
                 Icons.qr_code_scanner,
                 color: Colors.white,
               ),
             ),
-            tabItem(Icons.bar_chart, "Acti", 3),
+            tabItem(Icons.bar_chart, "Activity", 3),
             tabItem(Icons.person, "Profile", 4),
           ],
         ),
@@ -80,25 +127,22 @@ class _MainPageState extends State<MainPage> {
       onPressed: () => onTabTapped(index),
       icon: Column(
         children: [
-          Icon(
-            icon,
-            color: currentIndex == index ? Colors.black : Colors.grey,
-          ),
+          Icon(icon, color: currentIndex == index ? Colors.black : Colors.grey),
           Text(
             label,
             style: TextStyle(
-                fontSize: 10,
-                color: currentIndex == index
-                    ? Theme.of(context).primaryColor
-                    : Colors.grey),
-          )
+              fontSize: 10,
+              color: currentIndex == index ? Theme.of(context).primaryColor : Colors.grey,
+            ),
+          ),
         ],
       ),
     );
   }
-  void onTabTapped (int index){
+
+  void onTabTapped(int index) {
     setState(() {
-      currentIndex=index;
+      currentIndex = index;
     });
   }
 }
