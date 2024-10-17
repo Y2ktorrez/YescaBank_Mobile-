@@ -3,7 +3,7 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 
 class LogincustomerService {
-  static const String baseUrl = 'http://192.168.0.15:3001/api/customer/login';
+  static const String baseUrl = 'http://192.168.0.6:3000/api/customer/login';
 
   Future<String?> loginCustomer(LoginCustomer loginCustomer) async {
     print('Enviando solicitud a $baseUrl');

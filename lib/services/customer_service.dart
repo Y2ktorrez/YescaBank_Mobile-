@@ -3,7 +3,7 @@ import 'package:http/http.dart' as http;
 import '../models/createCustomer_model.dart';
 
 class CustomerService {
-  static const String baseUrl = 'http://192.168.0.15:3001/api/customer/create'; //Aca cambia la IP de tu laptop
+  static const String baseUrl = 'http://192.168.0.6:3000/api/customer/create'; //Aca cambia la IP de tu laptop
 
   Future<void> createCustomer(Customer customer) async {
     final response = await http.post(
@@ -17,4 +17,3 @@ class CustomerService {
     }
   }
 }
-
