@@ -1,15 +1,14 @@
 import 'package:flutter/material.dart';
 
 class CreditCard extends StatelessWidget {
-  final String nroAccount; // Número de cuenta
-  final String balance; // Balance de la cuenta
+  final String nroAccount;
+  final String balance;
 
   const CreditCard({super.key, required this.nroAccount, required this.balance});
 
   @override
   Widget build(BuildContext context) {
-    // Obtener los últimos cuatro dígitos del número de cuenta
-    String maskedAccountNumber = '**** **** **** **** ${nroAccount.substring(nroAccount.length - 4)}';
+    String fullAccountNumber = nroAccount;
 
     return Container(
       height: 220,
@@ -47,7 +46,7 @@ class CreditCard extends StatelessWidget {
                       bottom: 16,
                       left: 16,
                       child: Text(
-                        maskedAccountNumber, // Mostrar el número de cuenta dinámicamente
+                        fullAccountNumber,
                         style: const TextStyle(
                           color: Colors.white,
                           fontSize: 18,
@@ -68,7 +67,7 @@ class CreditCard extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text(
-                        balance, // Mostrar el balance dinámicamente
+                        'BO ${balance}',  //Esto hay que cambiar el tipo de moneda Dinamicamente
                         style: const TextStyle(
                           fontSize: 24,
                           fontWeight: FontWeight.bold,

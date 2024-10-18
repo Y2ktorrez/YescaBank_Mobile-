@@ -62,9 +62,10 @@ class _HomeState extends State<Home> {
                         style: TextStyle(color: Colors.white),
                       ),
                       Text(
-                        _customerName != null ? '$_customerName back!' : 'Cargando...',
+                        _customerName != null ? '$_customerName' : 'Cargando...',
                         style: const TextStyle(
                           color: Colors.white,
+                          fontWeight: FontWeight.bold,
                           fontSize: 24,
                         ),
                       ),

@@ -44,10 +44,11 @@ class _AuthScreenState extends State<AuthScreen> {
     return isSignup
         ? SignupPage(
       onSignupSuccess: () {
-        // Redirige a MainPage cuando el usuario se registra exitosamente
-        Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(builder: (context) => const MainPage()),
+        setState(() {
+          isSignup = false; 
+        });
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text("Signup successful! Please login.")),
         );
       },
       onSwitchToLogin: () {
@@ -58,7 +59,7 @@ class _AuthScreenState extends State<AuthScreen> {
     )
         : LoginPage(
       onLoginSuccess: () {
-        // Redirige a MainPage cuando el usuario inicia sesión exitosamente
+        // Redirigimos a la MainPage después del login exitoso
         Navigator.pushReplacement(
           context,
           MaterialPageRoute(builder: (context) => const MainPage()),
