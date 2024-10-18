@@ -104,7 +104,7 @@ class FrontCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     // Obtener los últimos cuatro dígitos del número de cuenta
-    String maskedAccountNumber = '**** **** **** **** ${nroAccount.substring(nroAccount.length - 4)}';
+    String maskedAccountNumber = nroAccount;
 
     return Container(
       height: 240,
@@ -219,7 +219,7 @@ class BackCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     // Obtener los últimos cuatro dígitos del número de cuenta
-    String maskedAccountNumber = '**** **** **** **** ${nroAccount.substring(nroAccount.length - 4)}';
+    String maskedAccountNumber = nroAccount;
 
     return Container(
       height: 240,

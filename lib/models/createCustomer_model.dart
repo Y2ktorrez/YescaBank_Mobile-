@@ -41,4 +41,3 @@ class Customer {
     };
   }
 }
-
