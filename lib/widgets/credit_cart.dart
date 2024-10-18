@@ -3,8 +3,14 @@ import 'package:flutter/material.dart';
 class CreditCard extends StatelessWidget {
   final String nroAccount;
   final String balance;
+  final String typeCurrency;
 
-  const CreditCard({super.key, required this.nroAccount, required this.balance});
+  const CreditCard({
+    super.key,
+    required this.nroAccount,
+    required this.balance,
+    required this.typeCurrency,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -18,6 +24,7 @@ class CreditCard extends StatelessWidget {
         borderRadius: BorderRadius.circular(20),
         child: Column(
           children: [
+            // Parte superior de la tarjeta
             Expanded(
               flex: 2,
               child: Container(
@@ -57,6 +64,7 @@ class CreditCard extends StatelessWidget {
                 ),
               ),
             ),
+
             Expanded(
               flex: 1,
               child: Container(
@@ -66,14 +74,16 @@ class CreditCard extends StatelessWidget {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
+
                       Text(
-                        'BO ${balance}',  //Esto hay que cambiar el tipo de moneda Dinamicamente
+                        '$balance $typeCurrency',
                         style: const TextStyle(
                           fontSize: 24,
                           fontWeight: FontWeight.bold,
                           color: Colors.white,
                         ),
                       ),
+
                       Row(
                         mainAxisAlignment: MainAxisAlignment.start,
                         children: [

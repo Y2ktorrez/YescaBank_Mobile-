@@ -4,6 +4,7 @@ import 'package:yescabank/screens/home.dart';
 import 'package:yescabank/screens/my_cart.dart';
 import 'package:yescabank/screens/profile.dart';
 import 'package:yescabank/screens/scan.dart';
+import 'package:yescabank/services/token_storage.dart';
 
 import 'screens/login.dart';
 import 'screens/signup.dart';
@@ -24,7 +25,7 @@ class MyApp extends StatelessWidget {
         useMaterial3: true,
       ),
       debugShowCheckedModeBanner: false,
-      home: const AuthScreen(), // Pantalla de autenticación inicial
+      home: const AuthScreen(),
     );
   }
 }
@@ -38,41 +39,62 @@ class AuthScreen extends StatefulWidget {
 
 class _AuthScreenState extends State<AuthScreen> {
   bool isSignup = false;
+  bool isAuthenticated = false;
+
+  @override
+  void initState() {
+    super.initState();
+    _checkAuthToken();
+  }
+
+  Future<void> _checkAuthToken() async {
+    final token = await TokenStorage().getToken();
+    setState(() {
+      isAuthenticated = token != null;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
-    return isSignup
-        ? SignupPage(
-      onSignupSuccess: () {
-        setState(() {
-          isSignup = false; 
-        });
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text("Signup successful! Please login.")),
-        );
-      },
-      onSwitchToLogin: () {
-        setState(() {
-          isSignup = false;
-        });
-      },
-    )
-        : LoginPage(
-      onLoginSuccess: () {
-        // Redirigimos a la MainPage después del login exitoso
-        Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(builder: (context) => const MainPage()),
-        );
-      },
-      onSwitchToSignup: () {
-        setState(() {
-          isSignup = true;
-        });
-      },
-    );
+    if (isAuthenticated) {
+      return const MainPage();
+    } else {
+      return isSignup
+          ? SignupPage(
+        onSignupSuccess: () {
+          setState(() {
+            isSignup = false;
+          });
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(content: Text("Signup successful! Please login.")),
+          );
+        },
+        onSwitchToLogin: () {
+          setState(() {
+            isSignup = false;
+          });
+        },
+      )
+          : LoginPage(
+        onLoginSuccess: () async {
+          // Guardamos el token y redirigimos a la MainPage
+          final token = await TokenStorage().getToken();
+          if (token != null) {
+            setState(() {
+              isAuthenticated = true;
+            });
+          }
+        },
+        onSwitchToSignup: () {
+          setState(() {
+            isSignup = true;
+          });
+        },
+      );
+    }
   }
 }
+
 
 class MainPage extends StatefulWidget {
   const MainPage({super.key});

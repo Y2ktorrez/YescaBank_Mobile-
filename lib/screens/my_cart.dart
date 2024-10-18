@@ -51,7 +51,7 @@ class _MyCardPageState extends State<MyCardPage> {
           ),
         ),
         title: const Text(
-          "My Card",
+          "My Account",
           style: TextStyle(fontWeight: FontWeight.w500),
         ),
       ),
@@ -65,13 +65,12 @@ class _MyCardPageState extends State<MyCardPage> {
               BackCard(nroAccount: _nroAccount ?? '****', customerName: _customerName ?? 'Nombre'), 
               const SizedBox(height: 25),
               // FrontCard
-              FrontCard(nroAccount: _nroAccount ?? '****', customerName: _customerName ?? 'Nombre'),
               const SizedBox(height: 30),
               TextButton.icon(
                 onPressed: () {},
                 icon: const Icon(Icons.add),
                 label: const Text(
-                  "Add new card",
+                  "Add new Account",
                   style: TextStyle(
                     fontSize: 17,
                     fontWeight: FontWeight.w600,
@@ -89,121 +88,6 @@ class _MyCardPageState extends State<MyCardPage> {
               )
             ],
           ),
-        ),
-      ),
-    );
-  }
-}
-
-class FrontCard extends StatelessWidget {
-  final String nroAccount;
-  final String customerName;
-
-  const FrontCard({super.key, required this.nroAccount, required this.customerName});
-
-  @override
-  Widget build(BuildContext context) {
-    // Obtener los últimos cuatro dígitos del número de cuenta
-    String maskedAccountNumber = nroAccount;
-
-    return Container(
-      height: 240,
-      decoration: BoxDecoration(borderRadius: BorderRadius.circular(20)),
-      child: ClipRRect(
-        borderRadius: BorderRadius.circular(20),
-        child: Column(
-          children: [
-            Expanded(
-              flex: 2,
-              child: Container(
-                color: const Color.fromARGB(255, 14, 19, 29),
-                child: Stack(
-                  children: [
-                    Positioned(
-                      top: 16,
-                      left: 16,
-                      child: Image.asset(
-                        "assets/credit-card.png",
-                        height: 40,
-                        color: Colors.white,
-                      ),
-                    ),
-                    Positioned(
-                      top: 10,
-                      left: 70,
-                      child: Image.asset(
-                        "assets/wifi.png",
-                        height: 50,
-                        color: Colors.white,
-                      ),
-                    ),
-                    Positioned(
-                      bottom: 16,
-                      left: 16,
-                      child: Text(
-                        maskedAccountNumber, // Mostrar el número de cuenta dinámicamente
-                        style: const TextStyle(
-                          color: Colors.white,
-                          fontSize: 18,
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ),
-            Expanded(
-              flex: 1,
-              child: Container(
-                color: const Color.fromARGB(255, 16, 80, 98),
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Text(
-                            customerName, // Mostrar el nombre del cliente dinámicamente
-                            style: const TextStyle(
-                              fontSize: 17,
-                              fontWeight: FontWeight.bold,
-                              color: Colors.white
-                            ),
-                          ),
-                          const Text(
-                            '9/23',
-                            style: TextStyle(
-                              fontSize: 14,
-                              color: Colors.grey
-                            ),
-                          ),
-                        ],
-                      ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: [
-                          CircleAvatar(
-                            radius: 15,
-                            backgroundColor: Colors.white.withOpacity(0.8),
-                          ),
-                          Transform.translate(
-                            offset: const Offset(-10, 0),
-                            child: CircleAvatar(
-                              radius: 15,
-                              backgroundColor: Colors.white.withOpacity(0.8),
-                            ),
-                          )
-                        ],
-                      )
-                    ],
-                  ),
-                ),
-              ),
-            )
-          ],
         ),
       ),
     );
@@ -272,13 +156,7 @@ class BackCard extends StatelessWidget {
                         fontSize: 18,
                       ),
                     ),
-                    const Text(
-                      "9/23",
-                      style: TextStyle(
-                        color: Colors.grey,
-                        fontSize: 14,
-                      ),
-                    ),
+
                   ],
                 ),
                 Text(

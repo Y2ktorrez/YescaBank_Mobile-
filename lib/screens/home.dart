@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:yescabank/widgets/action_button.dart';
-import 'package:yescabank/widgets/credit_cart.dart'; // Corregido el nombre del archivo
+import 'package:yescabank/widgets/credit_cart.dart';
 import 'package:yescabank/widgets/transaction_list.dart';
 import 'package:yescabank/services/customer_service_B.dart';
 
@@ -16,6 +16,7 @@ class _HomeState extends State<Home> {
   String? _customerName;
   String? _nroAccount;
   String? _balance;
+  String? _typeCurrency;
 
   @override
   void initState() {
@@ -27,16 +28,17 @@ class _HomeState extends State<Home> {
     try {
       final customerData = await _customerServiceB.getCustomerData();
       setState(() {
-        _customerName = '${customerData.name} ${customerData.lastName}'; // Actualiza el estado con el nombre del cliente
-        _nroAccount = customerData.nroAccount; // Actualiza el número de cuenta
-        _balance = customerData.balance; // Actualiza el balance
+        _customerName = '${customerData.name} ${customerData.lastName}';
+        _nroAccount = customerData.nroAccount;
+        _balance = customerData.balance;
+        _typeCurrency = customerData.typeCurrency;
       });
     } catch (e) {
-      // Manejo de errores
       setState(() {
-        _customerName = 'Error al cargar nombre'; // Mensaje de error
-        _nroAccount = 'Error'; // Mensaje de error
-        _balance = '0.00'; // Mensaje de error
+        _customerName = 'Error al cargar nombre';
+        _nroAccount = 'Error';
+        _balance = '0.00';
+        _typeCurrency = 'N/A';
       });
     }
   }
@@ -62,7 +64,7 @@ class _HomeState extends State<Home> {
                         style: TextStyle(color: Colors.white),
                       ),
                       Text(
-                        _customerName != null ? '$_customerName' : 'Cargando...',
+                        _customerName ?? 'Cargando...',
                         style: const TextStyle(
                           color: Colors.white,
                           fontWeight: FontWeight.bold,
@@ -91,10 +93,8 @@ class _HomeState extends State<Home> {
                     child: const Column(
                       children: [
                         SizedBox(height: 110),
-                        // Panel Boton de Acción
                         ActionButtons(),
                         SizedBox(height: 30),
-                        // Panel de Transacciones
                         TransactionList(),
                       ],
                     ),
@@ -104,8 +104,9 @@ class _HomeState extends State<Home> {
                     left: 25,
                     right: 25,
                     child: CreditCard(
-                      nroAccount: _nroAccount ?? '****', // Pasa el número de cuenta
-                      balance: _balance ?? '0.00', // Pasa el balance
+                      nroAccount: _nroAccount ?? '****',
+                      balance: _balance ?? '0.00',
+                      typeCurrency: _typeCurrency ?? 'N/A',
                     ),
                   ),
                 ],
