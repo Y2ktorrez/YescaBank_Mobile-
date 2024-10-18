@@ -124,7 +124,7 @@ class _MainPageState extends State<MainPage> {
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
             tabItem(Icons.home, "Home", 0),
-            tabItem(Icons.credit_card, "My Card", 1),
+            tabItem(Icons.credit_card, "My Account", 1),
             FloatingActionButton(
               onPressed: () => onTabTapped(2),
               backgroundColor: const Color.fromARGB(255, 16, 80, 98),
