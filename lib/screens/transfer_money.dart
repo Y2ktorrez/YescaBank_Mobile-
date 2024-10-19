@@ -67,7 +67,7 @@ class _TransferMoneyState extends State<TransferMoney> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         const Text(
-          "Choose cards",
+          "My Account",
           style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
         ),
         const SizedBox(height: 12),

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-class CreditCard extends StatelessWidget {
+class CreditCard extends StatefulWidget {
   final String nroAccount;
   final String balance;
   final String typeCurrency;
@@ -13,8 +13,33 @@ class CreditCard extends StatelessWidget {
   });
 
   @override
+  _CreditCardState createState() => _CreditCardState();
+}
+
+class _CreditCardState extends State<CreditCard> {
+  bool _isAccountHidden = true;
+  bool _isBalanceHidden = true;
+
+  void _toggleAccountVisibility() {
+    setState(() {
+      _isAccountHidden = !_isAccountHidden;
+    });
+  }
+
+  void _toggleBalanceVisibility() {
+    setState(() {
+      _isBalanceHidden = !_isBalanceHidden;
+    });
+  }
+
+  @override
   Widget build(BuildContext context) {
-    String fullAccountNumber = nroAccount;
+    String fullAccountNumber = _isAccountHidden
+        ? '*********${widget.nroAccount.substring(widget.nroAccount.length - 4)}'
+        : widget.nroAccount;
+
+    String displayedBalance =
+    _isBalanceHidden ? '******' : '${widget.balance} ${widget.typeCurrency}';
 
     return Container(
       height: 220,
@@ -52,19 +77,32 @@ class CreditCard extends StatelessWidget {
                     Positioned(
                       bottom: 16,
                       left: 16,
-                      child: Text(
-                        fullAccountNumber,
-                        style: const TextStyle(
-                          color: Colors.white,
-                          fontSize: 18,
-                        ),
+                      child: Row(
+                        children: [
+                          Text(
+                            fullAccountNumber,
+                            style: const TextStyle(
+                              color: Colors.white,
+                              fontSize: 18,
+                            ),
+                          ),
+                          const SizedBox(width: 8),
+                          IconButton(
+                            icon: Icon(
+                              _isAccountHidden
+                                  ? Icons.visibility_off
+                                  : Icons.visibility,
+                              color: Colors.white,
+                            ),
+                            onPressed: _toggleAccountVisibility,
+                          ),
+                        ],
                       ),
                     ),
                   ],
                 ),
               ),
             ),
-
             Expanded(
               flex: 1,
               child: Container(
@@ -74,16 +112,28 @@ class CreditCard extends StatelessWidget {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-
-                      Text(
-                        '$balance $typeCurrency',
-                        style: const TextStyle(
-                          fontSize: 24,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.white,
-                        ),
+                      Row(
+                        children: [
+                          Text(
+                            displayedBalance,
+                            style: const TextStyle(
+                              fontSize: 24,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.white,
+                            ),
+                          ),
+                          const SizedBox(width: 8),
+                          IconButton(
+                            icon: Icon(
+                              _isBalanceHidden
+                                  ? Icons.visibility_off
+                                  : Icons.visibility,
+                              color: Colors.white,
+                            ),
+                            onPressed: _toggleBalanceVisibility,
+                          ),
+                        ],
                       ),
-
                       Row(
                         mainAxisAlignment: MainAxisAlignment.start,
                         children: [

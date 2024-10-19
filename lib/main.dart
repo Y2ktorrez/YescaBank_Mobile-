@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:yescabank/screens/activity.dart';
 import 'package:yescabank/screens/home.dart';
-import 'package:yescabank/screens/my_cart.dart';
+import 'package:yescabank/screens/my_account.dart';
 import 'package:yescabank/screens/profile.dart';
 import 'package:yescabank/screens/scan.dart';
 import 'package:yescabank/services/token_storage.dart';
