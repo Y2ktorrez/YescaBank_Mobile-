@@ -15,6 +15,7 @@ class _TransferMoneyState extends State<TransferMoney> {
   String? _nroAccount;
   String? _balance;
   String? _typeCurrency;
+  bool _isTransferChecked = false;
 
   @override
   void initState() {
@@ -55,7 +56,7 @@ class _TransferMoneyState extends State<TransferMoney> {
           children: [
             _buildCreditCardsSection(),
             const SizedBox(height: 25),
-            _buildRecipientsSection(context),
+            _buildFormFields(context),
           ],
         ),
       ),
@@ -76,7 +77,7 @@ class _TransferMoneyState extends State<TransferMoney> {
           child: Row(
             children: List.generate(
               3,
-              (index) => Padding(
+                  (index) => Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 5.0),
                 child: CreditCard(
                   nroAccount: _nroAccount ?? '****',
@@ -91,34 +92,20 @@ class _TransferMoneyState extends State<TransferMoney> {
     );
   }
 
-  Widget _buildRecipientsSection(BuildContext context) {
+  Widget _buildFormFields(BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         const Text(
-          "Choose recipients",
+          "Enter Details",
           style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
         ),
-        const SizedBox(height: 25),
-        Container(
-          width: double.infinity,
-          height: 55,
-          alignment: Alignment.center,
-          decoration: BoxDecoration(
-            color: Colors.white,
-            borderRadius: BorderRadius.circular(12),
-          ),
-          child: TextField(
-            decoration: InputDecoration(
-              hintText: 'Search contacts...',
-              hintStyle: TextStyle(color: Colors.grey[400]),
-              border: InputBorder.none,
-              prefixIcon: const Icon(Icons.search, size: 30),
-            ),
-          ),
-        ),
-        const SizedBox(height: 25),
-        _buildRecipientList(),
+        const SizedBox(height: 15),
+        _buildCustomTextField("Numero de Cuenta del a Depositar", Icons.person),
+        const SizedBox(height: 15),
+        _buildCheckboxField(),
+        const SizedBox(height: 15),
+        _buildCustomTextField("Descripcion", Icons.description),
         const SizedBox(height: 50),
         ElevatedButton(
           onPressed: () {
@@ -144,55 +131,52 @@ class _TransferMoneyState extends State<TransferMoney> {
     );
   }
 
-  Widget _buildRecipientList() {
-    return SingleChildScrollView(
-      scrollDirection: Axis.horizontal,
-      child: Row(
-        children: List.generate(
-          3,
-          (index) => Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Container(
-              width: 130,
-              height: 150,
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(15),
-                border: Border.all(
-                  color: index == 0 ? Colors.teal : Colors.grey,
-                ),
-              ),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  index == 0
-                      ? const Padding(
-                          padding: EdgeInsets.symmetric(horizontal: 8.0),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.end,
-                            children: [
-                              Icon(Icons.check, color: Colors.teal),
-                            ],
-                          ),
-                        )
-                      : const SizedBox(),
-                  const SizedBox(height: 12),
-                  const CircleAvatar(
-                    radius: 20,
-                    backgroundImage: AssetImage("assets/person.jpeg"),
-                  ),
-                  const Text(
-                    "Maria",
-                    style: TextStyle(fontWeight: FontWeight.bold),
-                  ),
-                  const Text(
-                    "Sevchenko",
-                    style: TextStyle(fontWeight: FontWeight.bold),
-                  ),
-                ],
-              ),
-            ),
-          ),
+  Widget _buildCustomTextField(String hint, IconData icon) {
+    return Container(
+      height: 55,
+      alignment: Alignment.center,
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(12),
+        border: Border.all(color: Colors.grey[300]!),
+      ),
+      child: TextField(
+        textAlignVertical: TextAlignVertical.center,
+        decoration: InputDecoration(
+          hintText: hint,
+          hintStyle: TextStyle(color: Colors.grey[400]),
+          border: InputBorder.none,
+          prefixIcon: Icon(icon, size: 28, color: Colors.grey[600]),
+          contentPadding: const EdgeInsets.symmetric(horizontal: 12),
         ),
+      ),
+    );
+  }
+
+  Widget _buildCheckboxField() {
+    return Container(
+      height: 55,
+      alignment: Alignment.center,
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(12),
+        border: Border.all(color: Colors.grey[300]!),
+      ),
+      child: Row(
+        children: [
+          Checkbox(
+            value: _isTransferChecked,
+            onChanged: (value) {
+              setState(() {
+                _isTransferChecked = value ?? false;
+              });
+            },
+          ),
+          const Text(
+            "Transferencia",
+            style: TextStyle(fontSize: 16),
+          ),
+        ],
       ),
     );
   }
