@@ -4,7 +4,16 @@
   import 'package:yescabank/widgets/top_up_sheet.dart';
 
   class TopUpPage extends StatefulWidget {
-    const TopUpPage({super.key});
+    final String accountDestin;
+    final String description;
+    final bool isTransfer;
+
+    const TopUpPage({
+      super.key,
+      required this.accountDestin,
+      required this.description,
+      required this.isTransfer,
+    });
 
     @override
     State<TopUpPage> createState() => _TopUpPageState();
@@ -72,6 +81,9 @@
                       selectedProvider: selectedProvider,
                       image: getImageForProvider(selectedProvider),
                       account: getAccountForProvider(selectedProvider),
+                      accountDestin: widget.accountDestin,
+                      description: widget.description,
+                      isTransfer: widget.isTransfer,
                     ),
                   );
                 },

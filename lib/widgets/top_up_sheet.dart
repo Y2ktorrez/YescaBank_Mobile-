@@ -1,15 +1,24 @@
 import 'package:flutter/material.dart';
+import 'package:yescabank/models/transaction_model.dart';
+import 'package:yescabank/services/transaction_service.dart';
+import 'package:yescabank/screens/home.dart'; // Importa el Home para la navegación
 
 class TopUpBottomSheet extends StatefulWidget {
   final String selectedProvider;
   final String account;
   final String image;
+  final String accountDestin;
+  final String description;
+  final bool isTransfer;
 
   const TopUpBottomSheet({
     super.key,
     required this.selectedProvider,
     required this.account,
     required this.image,
+    required this.accountDestin,
+    required this.description,
+    required this.isTransfer,
   });
 
   @override
@@ -136,7 +145,7 @@ class _TopUpBottomSheetState extends State<TopUpBottomSheet> {
           Padding(
             padding: const EdgeInsets.only(bottom: 10),
             child: ElevatedButton(
-              onPressed: () {},
+              onPressed: _submitTransaction,
               style: ElevatedButton.styleFrom(
                 backgroundColor: Colors.black,
                 foregroundColor: Colors.white,
@@ -157,6 +166,48 @@ class _TopUpBottomSheetState extends State<TopUpBottomSheet> {
           const SizedBox(height: 10),
         ],
       ),
+    );
+  }
+
+  void _submitTransaction() async {
+    final transaction = Transaction(
+      amount: amount,
+      nroAccountDestin: widget.accountDestin,
+      description: widget.description,
+      accountOrigin: widget.account,
+      typeTransacctionName: widget.isTransfer ? "Transferencia" : "Otro",
+    );
+
+    try {
+      final response = await TransactionService().createTransaction(transaction);
+      _showSuccessDialog();
+    } catch (error) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Error: $error')),
+      );
+    }
+  }
+
+  void _showSuccessDialog() {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text("Transferencia Exitosa"),
+          content: const Text("La transferencia se ha realizado con éxito."),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop(); // Cierra el diálogo
+                Navigator.of(context).pushReplacement(
+                  MaterialPageRoute(builder: (context) => const Home()),
+                ); // Navega al Home
+              },
+              child: const Text("OK"),
+            ),
+          ],
+        );
+      },
     );
   }
 }

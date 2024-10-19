@@ -12,6 +12,8 @@ class TransferMoney extends StatefulWidget {
 
 class _TransferMoneyState extends State<TransferMoney> {
   final CustomerServiceB _customerServiceB = CustomerServiceB();
+  final TextEditingController _accountDestinController = TextEditingController();
+  final TextEditingController _descriptionController = TextEditingController();
   String? _nroAccount;
   String? _balance;
   String? _typeCurrency;
@@ -101,17 +103,31 @@ class _TransferMoneyState extends State<TransferMoney> {
           style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
         ),
         const SizedBox(height: 15),
-        _buildCustomTextField("Numero de Cuenta del a Depositar", Icons.person),
+        _buildCustomTextField(
+          "Número de Cuenta del a Depositar",
+          Icons.person,
+          _accountDestinController,
+        ),
         const SizedBox(height: 15),
         _buildCheckboxField(),
         const SizedBox(height: 15),
-        _buildCustomTextField("Descripcion", Icons.description),
+        _buildCustomTextField(
+          "Descripción",
+          Icons.description,
+          _descriptionController,
+        ),
         const SizedBox(height: 50),
         ElevatedButton(
           onPressed: () {
             Navigator.push(
               context,
-              MaterialPageRoute(builder: (context) => const TopUpPage()),
+              MaterialPageRoute(
+                builder: (context) => TopUpPage(
+                  accountDestin: _accountDestinController.text,
+                  description: _descriptionController.text,
+                  isTransfer: _isTransferChecked,
+                ),
+              ),
             );
           },
           style: ElevatedButton.styleFrom(
@@ -131,7 +147,8 @@ class _TransferMoneyState extends State<TransferMoney> {
     );
   }
 
-  Widget _buildCustomTextField(String hint, IconData icon) {
+  Widget _buildCustomTextField(
+      String hint, IconData icon, TextEditingController controller) {
     return Container(
       height: 55,
       alignment: Alignment.center,
@@ -141,6 +158,7 @@ class _TransferMoneyState extends State<TransferMoney> {
         border: Border.all(color: Colors.grey[300]!),
       ),
       child: TextField(
+        controller: controller,
         textAlignVertical: TextAlignVertical.center,
         decoration: InputDecoration(
           hintText: hint,
