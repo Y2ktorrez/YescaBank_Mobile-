@@ -94,7 +94,7 @@
                   shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
                 ),
                 child: const Text(
-                  "Confirm",
+                  "Monto",
                   style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                 ),
               )

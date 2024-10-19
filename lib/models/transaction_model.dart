@@ -1,4 +1,3 @@
-// models/transaction_model.dart
 class Transaction {
   final double amount;
   final String nroAccountDestin;

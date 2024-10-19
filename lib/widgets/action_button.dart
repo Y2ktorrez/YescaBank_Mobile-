@@ -33,8 +33,8 @@ class ActionButtons extends StatelessWidget {
               },
             ),
             ActionButton(
-              icon: Icons.attach_money,
-              label: "Withdraw",
+              icon: Icons.receipt_long,
+              label: "Estracto",
               onPressed: (){
 
               },
