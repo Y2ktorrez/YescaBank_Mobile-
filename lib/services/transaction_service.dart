@@ -3,7 +3,7 @@ import 'package:http/http.dart' as http;
 import 'package:yescabank/models/transaction_model.dart';
 
 class TransactionService {
-  static const String baseUrl = 'http://ec2-18-188-191-141.us-east-2.compute.amazonaws.com/api/customer/loginFlutter';
+  static const String baseUrl = 'http://ec2-18-188-191-141.us-east-2.compute.amazonaws.com/api/transaction/create';
 
   Future<Map<String, dynamic>> createTransaction(Transaction transaction) async {
     final response = await http.post(
