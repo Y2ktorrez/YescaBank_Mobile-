@@ -3,7 +3,7 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 
 class LogincustomerService {
-  static const String baseUrl = 'http://192.168.0.15:3000/api/customer/loginFlutter';
+  static const String baseUrl = 'http://ec2-18-188-191-141.us-east-2.compute.amazonaws.com/api/customer/loginFlutter';
 
   Future<String?> loginCustomer(LoginCustomer loginCustomer) async {
     print('Enviando solicitud a $baseUrl');

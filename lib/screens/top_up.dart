@@ -108,7 +108,7 @@
       return accounts.map((account) {
         return PaymentProvider(
           image: "assets/bank_of_america.jpg",
-          name: "Bank Of America",
+          name: "Yesca Bank",
           account: account,
           isSelected: selectedProvider == 'Bank Of America',
           onChanged: (value) {
