@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 class CreditCard extends StatefulWidget {
   final String nroAccount;
@@ -32,6 +33,16 @@ class _CreditCardState extends State<CreditCard> {
     });
   }
 
+  // Función para copiar el número de cuenta al portapapeles
+  void _copyAccountNumber() {
+    Clipboard.setData(ClipboardData(text: widget.nroAccount));
+    ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(
+        content: Text('Número de cuenta copiado'),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     String fullAccountNumber = _isAccountHidden
@@ -39,7 +50,7 @@ class _CreditCardState extends State<CreditCard> {
         : widget.nroAccount;
 
     String displayedBalance =
-    _isBalanceHidden ? '******' : '${widget.balance} ${widget.typeCurrency}';
+    _isBalanceHidden ? '' : '${widget.balance} ${widget.typeCurrency}';
 
     return Container(
       height: 220,
@@ -95,6 +106,13 @@ class _CreditCardState extends State<CreditCard> {
                               color: Colors.white,
                             ),
                             onPressed: _toggleAccountVisibility,
+                          ),
+                          IconButton(
+                            icon: const Icon(
+                              Icons.copy,
+                              color: Colors.white,
+                            ),
+                            onPressed: _copyAccountNumber,
                           ),
                         ],
                       ),

@@ -97,14 +97,16 @@ class _AuthScreenState extends State<AuthScreen> {
 
 
 class MainPage extends StatefulWidget {
-  const MainPage({super.key});
+  final int initialIndex; // Agregamos un índice inicial
+
+  const MainPage({super.key, this.initialIndex = 0}); // Valor por defecto en 0 (Home)
 
   @override
   State<MainPage> createState() => _MainPageState();
 }
 
 class _MainPageState extends State<MainPage> {
-  int currentIndex = 0;
+  late int currentIndex;
 
   final List<Widget> pages = [
     const Home(),
@@ -113,6 +115,12 @@ class _MainPageState extends State<MainPage> {
     const ActivityPage(),
     const ProfilePage()
   ];
+
+  @override
+  void initState() {
+    super.initState();
+    currentIndex = widget.initialIndex; // Usamos el índice inicial
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -128,7 +136,8 @@ class _MainPageState extends State<MainPage> {
             FloatingActionButton(
               onPressed: () => onTabTapped(2),
               backgroundColor: const Color.fromARGB(255, 16, 80, 98),
-              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(30)),
               child: const Icon(
                 Icons.qr_code_scanner,
                 color: Colors.white,
@@ -153,7 +162,12 @@ class _MainPageState extends State<MainPage> {
           ),
           Text(
             label,
-            style: TextStyle(fontSize: 10, color: currentIndex == index ? Theme.of(context).primaryColor : Colors.grey),
+            style: TextStyle(
+              fontSize: 10,
+              color: currentIndex == index
+                  ? Theme.of(context).primaryColor
+                  : Colors.grey,
+            ),
           )
         ],
       ),

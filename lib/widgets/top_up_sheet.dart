@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:yescabank/main.dart';
 import 'package:yescabank/models/transaction_model.dart';
 import 'package:yescabank/services/transaction_service.dart';
 import 'package:yescabank/screens/home.dart';
@@ -200,8 +201,10 @@ class _TopUpBottomSheetState extends State<TopUpBottomSheet> {
               onPressed: () {
                 Navigator.of(context).pop(); // Cierra el diálogo
                 Navigator.of(context).pushReplacement(
-                  MaterialPageRoute(builder: (context) => const Home()),
-                ); // Navega al Home
+                  MaterialPageRoute(
+                    builder: (context) => const MainPage(initialIndex: 0),
+                  ),
+                ); // Navega al MainPage y selecciona Home
               },
               child: const Text("OK"),
             ),
