@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:yescabank/screens/transfer_money.dart';
+import 'package:yescabank/screens/estracto.dart'; // Asegúrate de que este import sea correcto
+import 'package:yescabank/screens/transfer_money.dart'; // Importar si no está ya
 
 class ActionButtons extends StatelessWidget {
   const ActionButtons({super.key});
@@ -21,29 +22,35 @@ class ActionButtons extends StatelessWidget {
             ActionButton(
               icon: Icons.account_balance,
               label: "Deposito",
-              onPressed: (){
-
+              onPressed: () {
+                // Lógica para Depósito
               },
             ),
             ActionButton(
               icon: Icons.swap_horiz,
               label: "Transferencia",
-              onPressed: (){
+              onPressed: () {
                 Navigator.push(context, MaterialPageRoute(builder: (context) => const TransferMoney()));
               },
             ),
             ActionButton(
               icon: Icons.receipt_long,
               label: "Estracto",
-              onPressed: (){
-
+              onPressed: () {
+                // Aquí se navega a la pantalla de extractos
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => StatementScreen(accountNumber: '****'), // Cambia '****' por el número de cuenta real si es necesario
+                  ),
+                );
               },
             ),
             ActionButton(
               icon: Icons.apps_sharp,
               label: "More",
-              onPressed: (){
-
+              onPressed: () {
+                // Lógica para Más
               },
             ),
           ],
