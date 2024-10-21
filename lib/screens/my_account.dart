@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:yescabank/services/customer_service_B.dart';
+import 'package:yescabank/screens/add_account.dart'; // Importar la nueva pantalla
 
 class MyCardPage extends StatefulWidget {
   const MyCardPage({super.key});
@@ -51,41 +52,48 @@ class _MyCardPageState extends State<MyCardPage> {
       body: _isLoading
           ? const Center(child: CircularProgressIndicator())
           : SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.all(20.0),
-          child: Column(
-            children: [
-              const SizedBox(height: 20),
-              BackCard(
-                nroAccount: _nroAccount ?? '****',
-                customerName: _customerName ?? 'Nombre',
-              ),
-              const SizedBox(height: 25),
-              const SizedBox(height: 30),
-              TextButton.icon(
-                onPressed: () {},
-                icon: const Icon(Icons.add),
-                label: const Text(
-                  "Add new Account",
-                  style: TextStyle(
-                    fontSize: 17,
-                    fontWeight: FontWeight.w600,
-                  ),
+              child: Padding(
+                padding: const EdgeInsets.all(20.0),
+                child: Column(
+                  children: [
+                    const SizedBox(height: 20),
+                    BackCard(
+                      nroAccount: _nroAccount ?? '****',
+                      customerName: _customerName ?? 'Nombre',
+                    ),
+                    const SizedBox(height: 25),
+                    const SizedBox(height: 30),
+                    TextButton.icon(
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => AddAccountPage(), // Navegar a la nueva pantalla
+                          ),
+                        );
+                      },
+                      icon: const Icon(Icons.add),
+                      label: const Text(
+                        "Add new Account",
+                        style: TextStyle(
+                          fontSize: 17,
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
+                      style: ElevatedButton.styleFrom(
+                        side: BorderSide(color: Colors.grey[100]!),
+                        fixedSize: const Size(double.maxFinite, 55),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(12),
+                        ),
+                        backgroundColor: Colors.grey[100],
+                        foregroundColor: Colors.black,
+                      ),
+                    ),
+                  ],
                 ),
-                style: ElevatedButton.styleFrom(
-                  side: BorderSide(color: Colors.grey[100]!),
-                  fixedSize: const Size(double.maxFinite, 55),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(12),
-                  ),
-                  backgroundColor: Colors.grey[100],
-                  foregroundColor: Colors.black,
-                ),
               ),
-            ],
-          ),
-        ),
-      ),
+            ),
     );
   }
 }

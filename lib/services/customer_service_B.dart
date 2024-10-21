@@ -27,7 +27,7 @@ class CustomerData {
 }
 
 class CustomerServiceB {
-  final String _baseUrl = 'http://ec2-18-188-191-141.us-east-2.compute.amazonaws.com/api/account/get-acountcus'; // Asegúrate de que esta URL sea correcta
+  final String _baseUrl = 'http://192.168.132.99:3000/api/account/get-acountcus'; // Asegúrate de que esta URL sea correcta
   final TokenStorage _tokenStorage = TokenStorage();
 
   Future<CustomerData> getCustomerData() async {
