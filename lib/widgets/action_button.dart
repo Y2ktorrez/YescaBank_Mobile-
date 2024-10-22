@@ -23,8 +23,22 @@ class ActionButtons extends StatelessWidget {
             ActionButton(
               icon: Icons.account_balance,
               label: "Deposito",
-              onPressed: () {
-                // Lógica para Depósito
+              onPressed: () async {
+                try {
+                  CustomerServiceB customerService = CustomerServiceB();
+                  CustomerData customerData = await customerService.getCustomerData();
+
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => StatementScreen(accountNumber: customerData.nroAccount),
+                    ),
+                  );
+                } catch (error) {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(content: Text('Error al obtener datos del cliente: $error')),
+                  );
+                }
               },
             ),
             ActionButton(

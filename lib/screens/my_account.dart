@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:yescabank/services/customer_service_B.dart';
+import 'package:yescabank/services/tarjeta_service.dart';
 import 'package:yescabank/screens/add_account.dart'; // Importar la nueva pantalla
 
 class MyCardPage extends StatefulWidget {
@@ -12,7 +12,7 @@ class MyCardPage extends StatefulWidget {
 class _MyCardPageState extends State<MyCardPage> {
   final CustomerServiceB _customerServiceB = CustomerServiceB();
   String? _customerName;
-  String? _nroAccount;
+  List<CustomerData> _accounts = [];
   bool _isLoading = true;
 
   @override
@@ -23,16 +23,16 @@ class _MyCardPageState extends State<MyCardPage> {
 
   Future<void> _loadCustomerData() async {
     try {
-      final customerData = await _customerServiceB.getCustomerData();
+      _accounts = await _customerServiceB.getCustomerData(); // Obtener múltiples cuentas
       setState(() {
-        _customerName = '${customerData.name} ${customerData.lastName}';
-        _nroAccount = customerData.nroAccount;
+        _customerName = _accounts.isNotEmpty
+            ? '${_accounts[0].name} ${_accounts[0].lastName}'
+            : 'Cargando...';
         _isLoading = false;
       });
     } catch (e) {
       setState(() {
         _customerName = 'Error al cargar nombre';
-        _nroAccount = '****';
         _isLoading = false;
       });
     }
@@ -58,17 +58,25 @@ class _MyCardPageState extends State<MyCardPage> {
                   children: [
                     const SizedBox(height: 20),
                     BackCard(
-                      nroAccount: _nroAccount ?? '****',
+                      nroAccount: _accounts.isNotEmpty
+                          ? _accounts[0].nroAccount
+                          : '****',
                       customerName: _customerName ?? 'Nombre',
                     ),
                     const SizedBox(height: 25),
+                    if (_accounts.length > 1)
+                      BackCard(
+                        nroAccount: _accounts[1].nroAccount,
+                        customerName: _accounts[1].name, // Corregido el espacio
+                      ),
                     const SizedBox(height: 30),
                     TextButton.icon(
                       onPressed: () {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => AddAccountPage(), // Navegar a la nueva pantalla
+                            builder: (context) =>
+                                AddAccountPage(), // Navegar a la nueva pantalla
                           ),
                         );
                       },

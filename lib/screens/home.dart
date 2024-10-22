@@ -3,6 +3,8 @@ import 'package:yescabank/widgets/action_button.dart';
 import 'package:yescabank/widgets/credit_cart.dart';
 import 'package:yescabank/widgets/transaction_list.dart';
 import 'package:yescabank/services/customer_service_B.dart';
+import 'package:yescabank/services/transaction_service.dart';
+import 'package:yescabank/models/transaction_model.dart';
 
 class Home extends StatefulWidget {
   const Home({super.key});
@@ -13,10 +15,12 @@ class Home extends StatefulWidget {
 
 class _HomeState extends State<Home> {
   final CustomerServiceB _customerServiceB = CustomerServiceB();
+  final TransactionService _transactionService = TransactionService();
   String? _customerName;
   String? _nroAccount;
   String? _balance;
   String? _typeCurrency;
+  List<Transaction> _transactions = [];
 
   @override
   void initState() {
@@ -33,6 +37,9 @@ class _HomeState extends State<Home> {
         _balance = customerData.balance;
         _typeCurrency = customerData.typeCurrency;
       });
+
+      // Cargar transacciones una vez que tengamos el número de cuenta
+      await _loadTransactions(customerData.nroAccount);
     } catch (e) {
       setState(() {
         _customerName = 'Error al cargar nombre';
@@ -40,6 +47,17 @@ class _HomeState extends State<Home> {
         _balance = '0.00';
         _typeCurrency = 'N/A';
       });
+    }
+  }
+
+  Future<void> _loadTransactions(String nroAccount) async {
+    try {
+      final transactions = await _transactionService.getTransactions(nroAccount);
+      setState(() {
+        _transactions = transactions;
+      });
+    } catch (e) {
+      print('Error al cargar las transacciones: $e');
     }
   }
 
@@ -90,12 +108,12 @@ class _HomeState extends State<Home> {
                   Container(
                     margin: const EdgeInsets.only(top: 165),
                     color: Colors.white,
-                    child: const Column(
+                    child: Column(
                       children: [
-                        SizedBox(height: 110),
-                        ActionButtons(),
-                        SizedBox(height: 30),
-                        TransactionList(),
+                        const SizedBox(height: 110),
+                        const ActionButtons(),
+                        const SizedBox(height: 30),
+                        TransactionList(transactions: _transactions),
                       ],
                     ),
                   ),
