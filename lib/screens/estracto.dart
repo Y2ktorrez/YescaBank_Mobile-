@@ -13,13 +13,13 @@ class StatementScreen extends StatefulWidget {
 }
 
 class _StatementScreenState extends State<StatementScreen> {
-  late Future<List<Transaction>> futureTransactions;
+  late Future<Transaction> futureTransaction; // Cambiado a Future<Transaction>
   final TransactionService _transactionService = TransactionService();
 
   @override
   void initState() {
     super.initState();
-    futureTransactions = _transactionService.fetchTransactions(widget.accountNumber);
+    futureTransaction = _transactionService.fetchTransaction(widget.accountNumber); // Cambiado a fetchTransaction
   }
 
   @override
@@ -28,18 +28,19 @@ class _StatementScreenState extends State<StatementScreen> {
       appBar: AppBar(
         title: const Text("Extractos"),
       ),
-      body: FutureBuilder<List<Transaction>>(
-        future: futureTransactions,
+      body: FutureBuilder<Transaction>(
+        future: futureTransaction,
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return const Center(child: CircularProgressIndicator());
           } else if (snapshot.hasError) {
             return Center(child: Text('Error: ${snapshot.error}'));
-          } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
+          } else if (!snapshot.hasData) {
             return const Center(child: Text('No hay extractos disponibles'));
           }
 
-          return StatementList(transactions: snapshot.data!);
+          // Aquí puedes crear una lista con un solo elemento o mostrar los detalles de la transacción
+          return StatementList(transactions: [snapshot.data!]); // Envolviendo en una lista
         },
       ),
     );
