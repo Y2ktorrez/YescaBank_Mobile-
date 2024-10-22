@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:yescabank/main.dart';
 import 'package:yescabank/models/transaction_model.dart';
 import 'package:yescabank/services/transaction_service.dart';
-import 'package:yescabank/screens/home.dart';
 
 class TopUpBottomSheet extends StatefulWidget {
   final String selectedProvider;
@@ -181,8 +180,9 @@ class _TopUpBottomSheetState extends State<TopUpBottomSheet> {
 
     try {
       final response = await TransactionService().createTransaction(transaction);
-      _showSuccessDialog();
+      _showSuccessDialog(); // Llama al diálogo de éxito
     } catch (error) {
+      // Maneja el error si la transacción falla
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text('Error: $error')),
       );
@@ -204,7 +204,7 @@ class _TopUpBottomSheetState extends State<TopUpBottomSheet> {
                   MaterialPageRoute(
                     builder: (context) => const MainPage(initialIndex: 0),
                   ),
-                ); // Navega al MainPage y selecciona Home
+                ); // Redirige a MainPage con el tab inicial
               },
               child: const Text("OK"),
             ),
@@ -213,4 +213,5 @@ class _TopUpBottomSheetState extends State<TopUpBottomSheet> {
       },
     );
   }
+
 }

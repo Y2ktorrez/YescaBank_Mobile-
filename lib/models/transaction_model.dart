@@ -22,4 +22,14 @@ class Transaction {
       'typeTransacctionName': typeTransacctionName,
     };
   }
+
+  factory Transaction.fromJson(Map<String, dynamic> json) {
+    return Transaction(
+      amount: double.tryParse(json['amount'].toString()) ?? 0.0,
+      nroAccountDestin: json['nroAccountDestin'] ?? '',
+      description: json['description'] ?? '',
+      accountOrigin: json['accountOrigin'] ?? '',
+      typeTransacctionName: json['typeTransacctionName'] ?? '',
+    );
+  }
 }

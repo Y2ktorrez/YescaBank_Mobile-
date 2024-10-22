@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:yescabank/screens/estracto.dart'; // Asegúrate de que este import sea correcto
+import 'package:yescabank/screens/statement.dart';
 import 'package:yescabank/screens/transfer_money.dart'; // Importar si no está ya
 import 'package:yescabank/services/customer_service_B.dart';
 
@@ -34,6 +34,8 @@ class ActionButtons extends StatelessWidget {
                 Navigator.push(context, MaterialPageRoute(builder: (context) => const TransferMoney()));
               },
             ),
+
+
             ActionButton(
               icon: Icons.receipt_long,
               label: "Extracto",
@@ -41,8 +43,7 @@ class ActionButtons extends StatelessWidget {
                 try {
                   CustomerServiceB customerService = CustomerServiceB();
                   CustomerData customerData = await customerService.getCustomerData();
-                  
-                  // Navegar a StatementScreen con el número de cuenta dinámico
+
                   Navigator.push(
                     context,
                     MaterialPageRoute(
@@ -50,13 +51,13 @@ class ActionButtons extends StatelessWidget {
                     ),
                   );
                 } catch (error) {
-                  // Manejo de errores, por ejemplo, mostrar un mensaje
                   ScaffoldMessenger.of(context).showSnackBar(
                     SnackBar(content: Text('Error al obtener datos del cliente: $error')),
                   );
                 }
               },
             ),
+
             ActionButton(
               icon: Icons.apps_sharp,
               label: "More",
