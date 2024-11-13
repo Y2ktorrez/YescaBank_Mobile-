@@ -5,6 +5,7 @@ import 'package:yescabank/widgets/transaction_list.dart';
 import 'package:yescabank/services/customer_service_B.dart';
 import 'package:yescabank/services/transaction_service.dart';
 import 'package:yescabank/models/transaction_model.dart';
+import 'package:yescabank/screens/interest_simulation_screen.dart';
 
 class Home extends StatefulWidget {
   const Home({super.key});
@@ -38,7 +39,6 @@ class _HomeState extends State<Home> {
         _typeCurrency = customerData.typeCurrency;
       });
 
-      // Cargar transacciones una vez que tengamos el número de cuenta
       await _loadTransactions(customerData.nroAccount);
     } catch (e) {
       setState(() {
@@ -61,10 +61,73 @@ class _HomeState extends State<Home> {
     }
   }
 
+  void _showInterestSimulation() {
+    // Navega a la pantalla de simulación de intereses
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => InterestSimulationScreen(),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: const Color.fromARGB(255, 5, 124, 150),
+      drawer: Drawer(
+        child: Container(
+          color: const Color.fromARGB(255, 5, 124, 150),
+          child: ListView(
+            padding: EdgeInsets.zero,
+            children: [
+              DrawerHeader(
+                decoration: const BoxDecoration(
+                  color: Color.fromARGB(255, 5, 124, 150),
+                ),
+                child: Text(
+                  'Menú de Opciones',
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 24,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ),
+              ListTile(
+                leading: const Icon(Icons.account_balance, color: Colors.white),
+                title: const Text(
+                  'Simulación de intereses',
+                  style: TextStyle(color: Colors.white, fontSize: 16),
+                ),
+                onTap: () {
+                  Navigator.pop(context);
+                  _showInterestSimulation();
+                },
+              ),
+            ],
+          ),
+        ),
+      ),
+      appBar: AppBar(
+        backgroundColor: const Color.fromARGB(255, 5, 124, 150),
+        elevation: 0,
+        iconTheme: const IconThemeData(color: Colors.white),
+        title: Row(
+          children: [
+            Expanded(
+              child: Text(
+                "Bienvenido a Yesca Bank",
+                style: const TextStyle(color: Colors.white, fontSize: 18),
+              ),
+            ),
+            IconButton(
+              onPressed: () {},
+              icon: const Icon(Icons.notifications, color: Colors.white),
+            ),
+          ],
+        ),
+      ),
       body: SafeArea(
         bottom: false,
         child: Column(
@@ -74,29 +137,20 @@ class _HomeState extends State<Home> {
               padding: const EdgeInsets.all(16.0),
               child: Row(
                 children: [
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      const Text(
-                        "Bienvenido a Yesca Bank",
-                        style: TextStyle(color: Colors.white),
-                      ),
-                      Text(
-                        _customerName ?? 'Cargando...',
-                        style: const TextStyle(
-                          color: Colors.white,
-                          fontWeight: FontWeight.bold,
-                          fontSize: 24,
+                  Flexible(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          _customerName ?? 'Cargando...',
+                          style: const TextStyle(
+                            color: Colors.white,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 24,
+                          ),
+                          overflow: TextOverflow.ellipsis,
                         ),
-                      ),
-                    ],
-                  ),
-                  const Spacer(),
-                  IconButton.outlined(
-                    onPressed: () {},
-                    icon: const Icon(
-                      Icons.notifications,
-                      color: Colors.white,
+                      ],
                     ),
                   ),
                 ],
