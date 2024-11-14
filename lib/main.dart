@@ -112,7 +112,7 @@ class _MainPageState extends State<MainPage> {
     const Home(),
     const MyCardPage(),
     const ScanPage(),
-    const ActivityPage(),
+    const AccountActivityScreen(),
     const ProfilePage()
   ];
 
