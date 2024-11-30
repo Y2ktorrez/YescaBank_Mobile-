@@ -4,7 +4,7 @@ import 'package:yescabank/models/transaction_model.dart';
 
 class TransactionService {
   static const String extractUrl =
-      'http://ec2-18-222-213-118.us-east-2.compute.amazonaws.com/api/transaction/transactionNot/';
+      'http://192.168.0.10:3000/api/transaction/transactionNot/';
 
   // Obtener extracto de transacciones por número de cuenta y tipo de transacción
   Future<List<Transaction>> getTransactions(String nroAccount, {String? transactionType}) async {
