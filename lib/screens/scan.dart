@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:yescabank/services/qr_service.dart';
 import 'package:yescabank/models/qr_response.dart';
 import 'package:yescabank/widgets/qr_image_widget.dart';
+import 'package:yescabank/screens/qr_scanner.dart';
 
 class ScanPage extends StatefulWidget {
   const ScanPage({super.key});
@@ -21,7 +22,7 @@ class _ScanPageState extends State<ScanPage> {
     try {
       final data = {
         "amount": 100.50,
-        "reference": "REF11111129",
+        "reference": "REF11111125",
         "singleUse": true,
         "expiresAt": "2024-12-31T23:59:59.000Z",
       };
@@ -39,11 +40,18 @@ class _ScanPageState extends State<ScanPage> {
     }
   }
 
+  void openQrScanner() {
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => const QRScannerPage()),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('QR Generator'),
+        title: const Text('QR Generator & Scanner'),
       ),
       body: Center(
         child: _isLoading
@@ -54,6 +62,11 @@ class _ScanPageState extends State<ScanPage> {
                   ElevatedButton(
                     onPressed: generateQr,
                     child: const Text('Generate QR'),
+                  ),
+                  const SizedBox(height: 20),
+                  ElevatedButton(
+                    onPressed: openQrScanner,
+                    child: const Text('Lector QR'),
                   ),
                   const SizedBox(height: 20),
                   if (_qrResponse != null) ...[
