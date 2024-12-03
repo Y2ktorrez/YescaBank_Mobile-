@@ -2,39 +2,35 @@ import 'package:flutter/material.dart';
 import 'package:mobile_scanner/mobile_scanner.dart';
 
 class QRScannerPage extends StatelessWidget {
-  const QRScannerPage({Key? key}) : super(key: key);
+  final void Function(double amount) onScanCompleted;
+
+  const QRScannerPage({Key? key, required this.onScanCompleted}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Scan QR Code'),
+        backgroundColor: Colors.teal,
       ),
       body: MobileScanner(
         onDetect: (capture) {
-          final List<Barcode> barcodes = capture.barcodes;
-          for (final barcode in barcodes) {
+          for (final barcode in capture.barcodes) {
             final String? code = barcode.rawValue;
             if (code != null) {
-              // Mostrar el resultado en un diálogo
-              showDialog(
-                context: context,
-                builder: (context) => AlertDialog(
-                  title: const Text('QR Code Detected'),
-                  content: Text('Data: $code'),
-                  actions: [
-                    TextButton(
-                      onPressed: () => Navigator.of(context).pop(),
-                      child: const Text('OK'),
-                    ),
-                  ],
-                ),
-              );
-              break; // Detenemos la iteración después del primer código detectado
+              final amount = _extractAmountFromQrCode(code);
+              onScanCompleted(amount); // Llamar al callback
+              Navigator.of(context).pop(); // Cerrar la cámara y regresar
+              break;
             }
           }
         },
       ),
     );
+  }
+
+  double _extractAmountFromQrCode(String code) {
+    // Simular la extracción de un monto desde el código
+    return 100.50; // Personaliza esta lógica según tu necesidad
   }
 }

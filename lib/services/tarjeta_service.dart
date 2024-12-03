@@ -27,8 +27,10 @@ class CustomerData {
 }
 
 class CustomerServiceB {
-  final String _baseUrl = 'http://192.168.0.10:3000/api/account/get-acountcus';
+  final String _baseUrl = 'http://ec2-18-222-213-118.us-east-2.compute.amazonaws.com/api/account/get-acountcus';
   final TokenStorage _tokenStorage = TokenStorage();
+
+//http://ec2-18-222-213-118.us-east-2.compute.amazonaws.com/api/transaction/transactionNot
 
   Future<List<CustomerData>> getCustomerData() async {
     final token = await _tokenStorage.getToken();

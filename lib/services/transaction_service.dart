@@ -4,9 +4,9 @@ import 'package:yescabank/models/transaction_model.dart';
 
 class TransactionService {
   static const String createUrl =
-      'http://192.168.0.10:3000/api/transaction/create';
+      'http://ec2-18-222-213-118.us-east-2.compute.amazonaws.com/transaction/create';
   static const String extractUrl =
-      'http://192.168.0.10:3000/api/transaction/transactionNot/';
+      'http://ec2-18-222-213-118.us-east-2.compute.amazonaws.com/transaction/transactionNot/';
 
   // Crear transacción
   Future<Map<String, dynamic>> createTransaction(Transaction transaction) async {

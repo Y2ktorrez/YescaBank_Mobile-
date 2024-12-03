@@ -4,7 +4,7 @@ import 'package:yescabank/services/token_storage.dart';
 import 'package:yescabank/models/account_activity.dart';
 
 class AccountService {
-  final String _baseUrl = 'http://192.168.0.10:3000/api/account/get-acountcus';
+  final String _baseUrl = 'http://ec2-18-222-213-118.us-east-2.compute.amazonaws.com/api/account/get-acountcus';
   final TokenStorage _tokenStorage = TokenStorage();
 
   Future<List<AccountActivity>> getAccountActivity() async {
